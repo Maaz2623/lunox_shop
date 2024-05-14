@@ -10,5 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 export const authFormSchema =  () => z.object({
   firstName: z.string().min(1).max(50),
   lastName: z.string().min(1).max(50),
-  email: z.string().email()
+  address1: z.string().min(1).max(100),
+  email: z.string().email(),
+  
 })

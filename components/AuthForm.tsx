@@ -16,30 +16,43 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CustomInput from "./CustomInput";
+import { authFormSchema } from "@/lib/utils";
 
-const formSchema = z.object({
-  username: z.string().min(2).max(50),
-});
 
 const AuthForm = () => {
+
+
+  const [user, setUser] = useState(null)
+
+
+  const formSchema = authFormSchema()
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
+      address1: ""
     },
   });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    const userData = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      address1: values.address1
+    }
+
+    
+    console.log(userData);
   }
 
   return (
-      <ScrollArea className="m-5 h-full p-5">
+      <div className="m-5 h-full p-5">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="">
             <div className="flex justify-around gap-5 items-center">
@@ -61,11 +74,18 @@ const AuthForm = () => {
               <CustomInput name="email" label="Email" control={form.control} placeholder="Enter your email" />
             </div>
 
+            <div className="mt-4">
+            <CustomInput name="address1" label="Adress 1" control={form.control} placeholder="Enter your address" />
+            </div>
 
 
+
+          <Button type="submit">
+            Submit
+          </Button>
           </form>
         </Form>
-      </ScrollArea>
+      </div>
   );
 };
 
